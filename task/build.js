@@ -5,21 +5,17 @@ const merge = require('webpack-merge');
 const baseConfig = require('./baseConfig');
 
 const config = merge(baseConfig, {
-	mode: 'development',
+	mode: 'production',
 	output: {
-		path: path.resolve(__dirname, '../build'),
+		path: path.resolve(__dirname, '../dist'),
 		filename: 'bundle.js'
 	},
-	devtool: 'source-map'
+	devtool: 'none'
 });
 
 const compiler = webpack(config);
 
-compiler.watch({
-	aggregateTimeout: 300,
-	poll: 1000,
-	ignored: /node_modules/
-}, (err, stat) => {
+compiler.run((err, stat) => {
 	if (err) {
 		console.error(chalk.red(err));
 	} else {
