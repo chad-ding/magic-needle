@@ -4,24 +4,24 @@
 	"description": "Excel分析工具",
 	"scripts": {
 		"test": "test",
-		"build": "webpack"
+		"dev": "node ./task/dev.js",
+		"build": "node ./task/build.js"
 	},
 	"keywords": [
 		"excel",
 		"分析工具"
 	],
 	"bin": {
-		"eat": "src/index.js"
+		"xat": "src/index.js"
 	},
 	"author": "chad.ding",
 	"license": "ISC",
 	"devDependencies": {
-		"@babel/core": "^7.6.4",
-		"@babel/preset-env": "^7.6.3",
 		"@types/node": "^12.11.5",
-		"babel-loader": "^8.0.6",
 		"ts-loader": "^6.2.0",
-		"typescript": "^3.6.4"
+		"typescript": "^3.6.4",
+		"webpack": "^4.41.2",
+		"webpack-merge": "^4.2.2"
 	},
 	"dependencies": {
 		"chalk": "^2.4.2",

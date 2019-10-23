@@ -1,5 +1,6 @@
 module.exports = {
 	entry: './src/index.ts',
+	mode: 'development',
 	output: {
 		filename: 'bundle.js'
 	},
@@ -14,9 +15,5 @@ module.exports = {
 			// all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
 			{ test: /\.tsx?$/, use: ['ts-loader'] }
 		]
-	},
-	watchOptions: {
-		aggregateTimeout: 300,
-		poll: 1000
 	}
 };
