@@ -1,0 +1,31 @@
+{
+	"name": "xlsx-analysis-tools",
+	"version": "1.0.0",
+	"description": "Excel分析工具",
+	"scripts": {
+		"test": "test",
+		"build": "webpack"
+	},
+	"keywords": [
+		"excel",
+		"分析工具"
+	],
+	"bin": {
+		"eat": "src/index.js"
+	},
+	"author": "chad.ding",
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/core": "^7.6.4",
+		"@babel/preset-env": "^7.6.3",
+		"@types/node": "^12.11.5",
+		"babel-loader": "^8.0.6",
+		"ts-loader": "^6.2.0",
+		"typescript": "^3.6.4"
+	},
+	"dependencies": {
+		"chalk": "^2.4.2",
+		"commander": "^3.0.2",
+		"node-xlsx": "^0.15.0"
+	}
+}
