@@ -6,10 +6,6 @@ const baseConfig = require('./baseConfig');
 
 const config = merge(baseConfig, {
 	mode: 'production',
-	output: {
-		path: path.resolve(__dirname, '../dist'),
-		filename: 'bundle.js'
-	},
 	devtool: 'none'
 });
 
