@@ -3,7 +3,6 @@
 	"version": "1.0.0",
 	"description": "Excel分析工具",
 	"scripts": {
-		"start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
 		"dev": "node ./task/dev.js",
 		"build": "node ./task/build.js"
 	},
@@ -19,16 +18,16 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@types/node": "^12.11.5",
-		"nodemon": "^1.19.4",
 		"ts-loader": "^6.2.0",
-		"ts-node": "^8.4.1",
 		"typescript": "^3.6.4",
 		"webpack": "^4.41.2",
 		"webpack-merge": "^4.2.2"
 	},
 	"dependencies": {
+		"@types/inquirer": "^6.5.0",
 		"chalk": "^2.4.2",
 		"commander": "^3.0.2",
+		"inquirer": "^7.0.0",
 		"node-xlsx": "^0.15.0",
 		"prompt": "^1.0.0",
 		"yargs": "^14.2.0"
