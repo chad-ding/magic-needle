@@ -5,7 +5,15 @@ import xlsx from 'node-xlsx';
 interface Sheet {
 	name: string;
 	data: string[][];
-}
+};
+
+interface Performance {
+	[key: string]: number;
+	launcher_time: number;
+	page_time: number;
+	render_time: number;
+	msg_create_application_time: number;
+};
 
 export function analysis(file: string): void {
 	const workSheets: Sheet[] = xlsx.parse(fs.readFileSync(file));
@@ -36,14 +44,6 @@ function writeExcel(sheet: Sheet, file: string): void {
 			console.error(chalk.green('文件写入成功'));
 		}
 	});
-}
-
-interface Performance {
-	[key: string]: number;
-	launcher_time: number;
-	page_time: number;
-	render_time: number;
-	msg_create_application_time: number;
 }
 
 function compile(sheet: Sheet): Sheet {

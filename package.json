@@ -1,18 +1,18 @@
 {
-	"name": "xlsx-analysis-tools",
+	"name": "magic-needle",
 	"version": "1.0.0",
-	"description": "Excel分析工具",
+	"description": "数据分析工具",
 	"scripts": {
 		"dev": "node ./task/dev.js",
 		"build": "node ./task/build.js"
 	},
 	"keywords": [
 		"excel",
-		"分析工具"
+		"数据分析"
 	],
-	"main": "xat.js",
+	"main": "mn.js",
 	"bin": {
-		"xat": "./bin/xat"
+		"mn": "./bin/mn"
 	},
 	"author": "chad.ding",
 	"license": "ISC",

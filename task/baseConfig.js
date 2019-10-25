@@ -5,7 +5,7 @@ module.exports = {
 	mode: 'development',
 	output: {
 		path: path.resolve(__dirname, '../dist'),
-		filename: 'xat.js'
+		filename: 'mn.js'
 	},
 	devtool: 'source-map',
 	target: 'node',

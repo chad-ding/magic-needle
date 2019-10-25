@@ -1,20 +1,7 @@
 import program from 'commander';
 import * as inquirer from 'inquirer';
 import chalk from 'chalk';
-import analysis from './compiler';
-
-const questions: { type: string; name: string; message: string }[] = [
-	{
-		type: 'input',
-		name: 'username',
-		message: '请输入用户名'
-	},
-	{
-		type: 'password',
-		name: 'password',
-		message: '请输入用户密码'
-	}
-];
+import analysis from './compiler/xlsx';
 
 program
 	.version(require('../package.json').version)
@@ -23,16 +10,17 @@ program
 program
 	.command('run <filepath>')
 	.description('输入文件路径进行编译')
-	.action(name => {
-		analysis(name);
+	.option('-x, --xlsx', '编译xlsx文件')
+	.action((name, cmd) => {
+		if(cmd.xlsx) {
+			analysis(name);
+		} else {
+			console.error('未提供文件类型');
+		}
 	});
 
 program.on('--help', () => {
-	console.log(
-		`Run ${chalk.cyan(
-			`xat <command> --help`
-		)} for detailed usage of given command.`
-	);
+	console.log(`Run ${chalk.cyan(`mn <command> --help`)} for detailed usage of given command.`);
 });
 
 setTimeout(() => {
