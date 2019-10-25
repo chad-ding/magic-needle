@@ -7,8 +7,8 @@ interface Sheet {
 	data: string[][];
 }
 
-export function analysis(input: string): void {
-	const workSheets: Sheet[] = xlsx.parse(fs.readFileSync(input));
+export function analysis(file: string): void {
+	const workSheets: Sheet[] = xlsx.parse(fs.readFileSync(file));
 
 	if (workSheets.length < 1) {
 		console.info(chalk.red("文件为空"));
@@ -17,15 +17,24 @@ export function analysis(input: string): void {
 
 	const compiledSheet: Sheet = compile(workSheets[0]);
 
-	writeExcel(compiledSheet);
+	const regExp: RegExp = /(.+)(\.xlsx)/;
+	const disFile = file.replace(regExp, (m: string, p1: string, p2: string): string => {
+		return `${p1}.analysisied${p2}`;
+	});
+
+	writeExcel(compiledSheet, disFile);
 }
 
-function writeExcel(sheet: Sheet): void {
+function writeExcel(sheet: Sheet, file: string): void {
 	const sheets: Sheet[] = [sheet];
 	const buffer = xlsx.build(sheets);
 
-	fs.writeFile('/Users/chad/Downloads/analysis.xlsx', buffer, 'utf8', err => {
-		console.error(chalk.red(JSON.stringify(err)));
+	fs.writeFile(file, buffer, 'utf8', err => {
+		if (err) {
+			console.error(chalk.red(JSON.stringify(err)));
+		} else {
+			console.error(chalk.green('文件写入成功'));
+		}
 	});
 }
 
@@ -35,15 +44,6 @@ interface Performance {
 	page_time: number;
 	render_time: number;
 	msg_create_application_time: number;
-}
-
-function getPerformance(params: string) {
-	const subExp = /.*performance=(\{[^\}]+\}).*/;
-	const replaceExp = /([^\{,]\w+)=([^,\}]+)/g;
-
-	return params.replace(subExp, '$1').replace(/\s/g, '').replace(replaceExp, (match, p1, p2) => {
-		return `"${p1}":${isNaN(p2) ? "p2" : p2}`;
-	})
 }
 
 function compile(sheet: Sheet): Sheet {
@@ -56,71 +56,38 @@ function compile(sheet: Sheet): Sheet {
 		data: []
 	};
 
-	compiledSheet.data.push(['日期', '启动时间', '页面展示时间', '渲染时间', '应用创建时间']);
-
-	let tempData: { [key: string]: { [key: string]: {total: number, count: number } } } = {};
-
-	const indicator: string[] = ['launcher_time', 'page_time', 'render_time', 'msg_create_application_time'];
-
+	compiledSheet.data.push(['日期(day)', '机型', '引擎(hybrid_version)', '启动时间(launcher_time)', '页面展示时间(page_time)', '渲染时间(render_time)', '应用创建时间(msg_create_application_time)']);
 	while (i < data.length) {
 		const item: string[] = data[i];
 		const day = item[item.length - 1];
 		const params: string = item[5];
 		i++;
 
-		let performanceString = getPerformance(params);
-		let performance: Performance;
+		let paramJson: {
+			performance: string;
+			hybrid_version: string;
+		},
+			performance: Performance;
+
 		try {
-			performance = JSON.parse(performanceString);
+			paramJson = JSON.parse(params);
+			performance = JSON.parse(paramJson.performance.replace(/(\w+)=/g, '"$1":'));
 		} catch (e) {
-			console.error(chalk.yellow(e));
-			continue;
+			console.error(chalk.red(e));
 		}
 
-		if (tempData[day]) {
-			const temp = tempData[day];
-			const keys: string[] = Object.getOwnPropertyNames(performance);
-			keys.forEach((item: string) => {
-				if(!indicator.includes(item)) {
-					return;
-				}
-				temp[item].total += performance[item];
-				temp[item].count += 1;
-			});
-		} else {
-			let temp: {
-				[key: string]: {total: number, count: number };
-			} = {};
-
-			const keys: string[] = Object.getOwnPropertyNames(performance);
-			keys.forEach((item: string) => {
-				temp[item] = {
-					total: 0,
-					count: 0
-				};
-				temp[item].total = performance[item];
-				temp[item].count = 1;
-			});
-
-			tempData[day] = temp;
-		}
+		compiledSheet.data.push([
+			day,
+			item[6],
+			paramJson.hybrid_version,
+			performance.launcher_time.toString(),
+			performance.page_time.toString(),
+			performance.render_time.toString(),
+			performance.msg_create_application_time.toString()
+		]);
 	}
-
-	Object.getOwnPropertyNames(tempData).forEach((key: string) => {
-		const performance = tempData[key];
-		const data: string[] = [
-			key,
-			Math.round(performance.launcher_time.total / performance.launcher_time.count).toString(),
-			Math.round(performance.page_time.total / performance.page_time.count).toString(),
-			Math.round(performance.render_time.total / performance.render_time.count).toString(),
-			Math.round(performance.msg_create_application_time.total / performance.msg_create_application_time.count).toString()
-		];
-		
-		compiledSheet.data.push(data);
-	});
-
 
 	return compiledSheet;
 }
 
-analysis('/Users/chad/Downloads/hive20191024092330.xlsx');
+export default analysis;

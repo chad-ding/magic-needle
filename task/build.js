@@ -3,6 +3,10 @@ const chalk = require('chalk');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const baseConfig = require('./baseConfig');
+const common = require('./common');
+
+const distDir = path.join(__dirname, '../dist');
+common.clearDir(distDir);
 
 const config = merge(baseConfig, {
 	mode: 'production',

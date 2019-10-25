@@ -1,6 +1,7 @@
 import program from 'commander';
 import * as inquirer from 'inquirer';
 import chalk from 'chalk';
+import analysis from './compiler';
 
 const questions: { type: string; name: string; message: string }[] = [
 	{
@@ -23,10 +24,7 @@ program
 	.command('run <filepath>')
 	.description('输入文件路径进行编译')
 	.action(name => {
-		inquirer.prompt(questions).then((result: any) => {
-			console.log('您选择的平台类型信息如下：');
-			console.log(JSON.stringify(result));
-		});
+		analysis(name);
 	});
 
 program.on('--help', () => {

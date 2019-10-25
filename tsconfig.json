@@ -12,8 +12,6 @@
         "allowSyntheticDefaultImports": true
     },
     "include": [
-        "src/**/*",
-        "node_modules/chalk",
-        "node_modules/inquirer"
-    ],
+        "src/**/*"
+    ]
 }

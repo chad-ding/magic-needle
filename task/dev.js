@@ -3,6 +3,10 @@ const chalk = require('chalk');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const baseConfig = require('./baseConfig');
+const common = require('./common');
+
+const distDir = path.join(__dirname, '../dist');
+common.clearDir(distDir);
 
 const config = merge(baseConfig, {
 	mode: 'development',
@@ -12,7 +16,7 @@ const config = merge(baseConfig, {
 const compiler = webpack(config);
 
 compiler.watch({
-	aggregateTimeout: 300,
+	aggregateTimeout: 2000,
 	poll: 1000,
 	ignored: /node_modules/
 }, (err, stat) => {
