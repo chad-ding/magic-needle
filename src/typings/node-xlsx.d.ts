@@ -1,6 +1,6 @@
 interface NodeXlsx {
-	parse(input: any): [],
-	build(input: any[]): void
+	parse(input: any): [];
+	build(input: any[]): void;
 }
 
 declare module 'node-xlsx' {
