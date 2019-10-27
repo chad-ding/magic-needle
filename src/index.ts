@@ -3,6 +3,18 @@ import * as inquirer from 'inquirer';
 import chalk from 'chalk';
 import analysis from './compiler/xlsx';
 
+const optionalPrompt = [
+	{
+		type: 'list',
+		name: 'size',
+		message: 'What size do you need?',
+		choices: ['Jumbo', 'Large', 'Standard', 'Medium', 'Small', 'Micro'],
+		filter: function(val: string) {
+			return val.toLowerCase();
+		}
+	}
+];
+
 program.version(require('../package.json').version).usage('<command> [options]');
 
 program
@@ -15,6 +27,15 @@ program
 		} else {
 			console.error('未提供文件类型');
 		}
+	});
+
+program
+	.command('print')
+	.description('打印参数')
+	.action((name, cmd) => {
+		inquirer.prompt(optionalPrompt).then(answers => {
+			console.log(answers);
+		});
 	});
 
 program.on('--help', () => {
