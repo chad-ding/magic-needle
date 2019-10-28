@@ -8,7 +8,6 @@ interface Sheet {
 }
 
 interface Performance {
-	[key: string]: number;
 	launcher_time: number;
 	page_time: number;
 	render_time: number;

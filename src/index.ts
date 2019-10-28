@@ -9,7 +9,7 @@ const optionalPrompt = [
 		name: 'size',
 		message: 'What size do you need?',
 		choices: ['Jumbo', 'Large', 'Standard', 'Medium', 'Small', 'Micro'],
-		filter: function(val: string) {
+		filter: function(val: string): string {
 			return val.toLowerCase();
 		}
 	}
@@ -32,7 +32,7 @@ program
 program
 	.command('print')
 	.description('打印参数')
-	.action((name, cmd) => {
+	.action(() => {
 		inquirer.prompt(optionalPrompt).then(answers => {
 			console.log(answers);
 		});
